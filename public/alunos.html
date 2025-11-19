@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alunos Cadastrados</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Alunos Cadastrados</h1>
+      <ul id="lista-alunos"></ul>
+
+      <button
+        onclick="window.location.href='index.html'"
+        style="margin-top: 1rem"
+      >
+        Voltar para Cadastro
+      </button>
+    </div>
+
+    <script>
+      async function carregarAlunos() {
+        try {
+          const res = await fetch("/api/alunos");
+          if (!res.ok) throw new Error("Erro na resposta da API");
+
+          const alunos = await res.json();
+          const lista = document.getElementById("lista-alunos");
+          lista.innerHTML = "";
+
+          alunos.forEach((aluno) => {
+            const item = document.createElement("li");
+            item.style.marginBottom = "1rem";
+            item.innerHTML = `
+              <strong>${aluno.nome_completo}</strong><br>
+              Usuário: ${aluno.usuario_acesso}<br>
+              Email: ${aluno.email_aluno}<br>
+              Observação: ${aluno.observacao || "—"}<br>
+              <button onclick="editarAluno('${
+                aluno.usuario_acesso
+              }')">Editar</button>
+              <button onclick="apagarAluno('${
+                aluno.usuario_acesso
+              }')">Apagar</button>
+            `;
+            lista.appendChild(item);
+          });
+        } catch (error) {
+          console.error("Erro ao carregar alunos:", error);
+          document.getElementById("lista-alunos").innerHTML =
+            "<p style='color:red'>Erro ao carregar alunos.</p>";
+        }
+      }
+
+      async function apagarAluno(usuario) {
+        if (confirm("Tem certeza que deseja apagar este aluno?")) {
+          try {
+            const res = await fetch(`/api/alunos/${usuario}`, {
+              method: "DELETE",
+            });
+            const data = await res.json();
+            alert(data.message);
+            carregarAlunos();
+          } catch (error) {
+            console.error("Erro ao apagar aluno:", error);
+          }
+        }
+      }
+
+      function editarAluno(usuario) {
+        window.location.href = `editar.html?usuario=${usuario}`;
+      }
+
+      carregarAlunos();
+    </script>
+  </body>
+</html>

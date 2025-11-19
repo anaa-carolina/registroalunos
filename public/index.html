@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cadastro de Alunos</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cadastro de Alunos</h1>
+      <form id="formAluno">
+        <label for="nome">Nome completo</label>
+        <input
+          type="text"
+          id="nome"
+          name="nome_completo"
+          required
+          maxlength="150"
+        />
+
+        <label for="usuario">Usuário de acesso</label>
+        <input
+          type="text"
+          id="usuario"
+          name="usuario_acesso"
+          required
+          maxlength="60"
+        />
+
+        <label for="email">E-mail</label>
+        <input
+          type="email"
+          id="email"
+          name="email_aluno"
+          required
+          maxlength="254"
+        />
+
+        <label for="senha">Senha</label>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          required
+          minlength="8"
+          maxlength="128"
+        />
+
+        <label for="obs">Observação</label>
+        <textarea id="obs" name="observacao" maxlength="500"></textarea>
+
+        <button type="submit">Cadastrar</button>
+        <p id="mensagem"></p>
+      </form>
+
+      <!-- Botão de redirecionamento -->
+      <button
+        onclick="window.location.href='alunos.html'"
+        style="margin-top: 1rem"
+      >
+        Ver Alunos Cadastrados
+      </button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
